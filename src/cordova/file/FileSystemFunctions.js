@@ -1,6 +1,6 @@
 sap.ui.define([
 	"sap/ui/base/Object",
-	"com/pepsico/core/sap/mobile/cordova/file/FileSystemException"
+	"com/pepsico/core/cordova/file/FileSystemException"
 ], function(Object, FileSystemException) {
 	"use strict";
 	return {

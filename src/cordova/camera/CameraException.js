@@ -2,9 +2,9 @@ sap.ui.define([
 	"com/pepsico/core/sap/ui/base/RuntimeException"
 ], function(RuntimeException) {
 	"use strict";
-	let UnhandledRejection = RuntimeException.extend("com.pepsico.core.sap.mobile.cordova.file.FileSystemException", {
+	let UnhandledRejection = RuntimeException.extend("com.pepsico.core.cordova.camera.CameraException", {
 		constructor: function({
-			sName = "FileSystemException",
+			sName = "CameramException",
 			sMessage = "",
 			oCausedBy = null
 		} = {}) {

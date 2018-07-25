@@ -1,9 +1,9 @@
 sap.ui.define([
 	"sap/ui/model/odata/v2/ODataModel",
-	"com/pepsico/core/sap/ui/model/odata/v2/ODataModel/ODataException"
+	"com/pepsico/core/sap/ui/model/odata/v2/ODataException"
 ], function(ODataModel, ODataException) {
 	"use strict";
-	return ODataModel.extend("com.pepsico.core.sap.ui.model.odata.v2.ODataModel.ODataModel", {
+	return ODataModel.extend("com.pepsico.core.sap.ui.model.odata.v2.ODataModel", {
 		/*constructor: function() {
 			ODataModel.call(this);
 			

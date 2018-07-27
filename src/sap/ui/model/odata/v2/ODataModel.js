@@ -15,7 +15,7 @@ sap.ui.define([
 		getRelatedPath: function(sFullPath) {
 			return sFullPath.replace(this.sServiceUrl, "");
 		},
-		read: function(sPath, mParameters) {
+		readPromise: function(sPath, mParameters) {
 			mParameters = mParameters || {};
 			var that = this;
 			return new Promise(function(fnResolve, fnReject) {
@@ -25,7 +25,7 @@ sap.ui.define([
 				that.read(sPath, mParameters);
 			});
 		},
-		create: function(sPath, oData, mParameters) {
+		createPromise: function(sPath, oData, mParameters) {
 			mParameters = mParameters || {};
 			var that = this;
 			return new Promise(function(fnResolve, fnReject) {
@@ -35,7 +35,7 @@ sap.ui.define([
 				that.read(sPath, mParameters);
 			});
 		},
-		remove: function(sPath, mParameters) {
+		removePromise: function(sPath, mParameters) {
 			mParameters = mParameters || {};
 			var that = this;
 			return new Promise(function(fnResolve, fnReject) {
@@ -45,7 +45,7 @@ sap.ui.define([
 				that.remove(sPath, mParameters);
 			});
 		},
-		submitChanges: function(mParameters) {
+		submitChangesPromise: function(mParameters) {
 			mParameters = mParameters || {};
 			var that = this;
 			return new Promise(function(fnResolve, fnReject) {
@@ -55,7 +55,7 @@ sap.ui.define([
 				that.submitChanges(mParameters);
 			});
 		},
-		callFunction: function(sFuncPath, mParameters) {
+		callFunctionPromise: function(sFuncPath, mParameters) {
 			mParameters = mParameters || {};
 			var that = this;
 			return new Promise(function(fnResolve, fnReject) {

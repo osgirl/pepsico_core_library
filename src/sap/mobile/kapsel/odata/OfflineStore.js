@@ -10,8 +10,9 @@ sap.ui.define([
 			this._oOfflineStore = sap.OData.createOfflineStore(oProperties);
 		},
 		open: function(oOptions) {
+			let that = this;
 			return new Promise(function(fnResolve, fnReject) {
-				this._oOfflineStore.open(
+				that._oOfflineStore.open(
 					() => fnResolve(),
 					(oError) => fnReject(new OfflineStoreException({
 						sMessage: "Failed to open offline store",
@@ -22,8 +23,9 @@ sap.ui.define([
 			});
 		},
 		close: function() {
+			let that = this;
 			return new Promise(function(fnResolve, fnReject) {
-				this._oOfflineStore.open(
+				that._oOfflineStore.open(
 					() => fnResolve(),
 					(oError) => fnReject(new OfflineStoreException({
 						sMessage: "Failed to open offline store",
@@ -33,8 +35,9 @@ sap.ui.define([
 			});
 		},
 		refresh: function(oSubset) {
+			let that = this;
 			return new Promise(function(fnResolve, fnReject) {
-				this._oOfflineStore.refresh(
+				that._oOfflineStore.refresh(
 					() => fnResolve(),
 					(oError) => fnReject(new OfflineStoreException({
 						sMessage: "Failed to open offline store",
@@ -45,8 +48,9 @@ sap.ui.define([
 			});
 		},
 		clear: function() {
+			let that = this;
 			return new Promise(function(fnResolve, fnReject) {
-				this._oOfflineStore.clear(
+				that._oOfflineStore.clear(
 					() => fnResolve(),
 					(oError) => fnReject(new OfflineStoreException({
 						sMessage: "Failed to open offline store",
@@ -56,8 +60,9 @@ sap.ui.define([
 			});
 		},
 		flush: function() {
+			let that = this;
 			return new Promise(function(fnResolve, fnReject) {
-				this._oOfflineStore.flush(
+				that._oOfflineStore.flush(
 					() => fnResolve(),
 					(oError) => fnReject(new OfflineStoreException({
 						sMessage: "Failed to open offline store",

@@ -4,7 +4,7 @@ sap.ui.define([
 	"com/pepsico/core/sap/kapsel/odata/OfflineStoreException"
 ], function(Object, OfflineStoreException) {
 	"use strict";
-	let UnhandledRejection = Object.extend("com.pepsico.core.sap.kapsel.odata.OfflineStore", {
+	let OfflineStore = Object.extend("com.pepsico.core.sap.kapsel.odata.OfflineStore", {
 		constructor: function(oProperties) {
 			Object.call(this);
 			this._oOfflineStore = sap.OData.createOfflineStore(oProperties);
@@ -68,5 +68,5 @@ sap.ui.define([
 		},
 	});
 
-	return UnhandledRejection;
+	return OfflineStore;
 });

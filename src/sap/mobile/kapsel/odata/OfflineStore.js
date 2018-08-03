@@ -1,10 +1,10 @@
 // https://help.sap.com/saphelp_smp305sdk/helpdata/en/5e/ad1a55804310149b19b8d5b5d9100b/frameset.htm
 sap.ui.define([
 	"sap/ui/base/Object",
-	"com/pepsico/core/sap/kapsel/odata/OfflineStoreException"
+	"com/pepsico/core/sap/mobile/kapsel/odata/OfflineStoreException"
 ], function(Object, OfflineStoreException) {
 	"use strict";
-	let OfflineStore = Object.extend("com.pepsico.core.sap.kapsel.odata.OfflineStore", {
+	let OfflineStore = Object.extend("com.pepsico.core.sap.mobile.kapsel.odata.OfflineStore", {
 		constructor: function(oProperties) {
 			Object.call(this);
 			this._oOfflineStore = sap.OData.createOfflineStore(oProperties);

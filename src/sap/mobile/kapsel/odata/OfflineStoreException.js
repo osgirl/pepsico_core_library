@@ -2,7 +2,7 @@ sap.ui.define([
 	"com/pepsico/core/sap/ui/base/RuntimeException"
 ], function(RuntimeException) {
 	"use strict";
-	let UnhandledRejection = RuntimeException.extend("com.pepsico.core.sap.kapsel.odata.OfflineStoreException", {
+	let UnhandledRejection = RuntimeException.extend("com.pepsico.core.sap.mobile.kapsel.odata.OfflineStoreException", {
 		constructor: function({
 			sName = "OfflineStoreException",
 			sMessage = "",

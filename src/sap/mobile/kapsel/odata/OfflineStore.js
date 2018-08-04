@@ -25,10 +25,10 @@ sap.ui.define([
 		close: function() {
 			let that = this;
 			return new Promise(function(fnResolve, fnReject) {
-				that._oOfflineStore.open(
+				that._oOfflineStore.close(
 					() => fnResolve(),
 					(oError) => fnReject(new OfflineStoreException({
-						sMessage: "Failed to open offline store",
+						sMessage: "Failed to close offline store",
 						oCausedBy: oError
 					}))
 				);

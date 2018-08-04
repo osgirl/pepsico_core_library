@@ -7,7 +7,7 @@ sap.ui.define([
 		/*constructor: function() {
 			ODataModel.call(this);
 			
-		},*/
+		},*/ //
 		attachChange: function(sPath, fnOnChange) {
 			let oBinding = new sap.ui.model.Binding(this, sPath, this.getContext(sPath));
 			oBinding.attachChange((oEvent) => fnOnChange(oEvent));

@@ -32,7 +32,7 @@ sap.ui.define([
 				mParameters.success = fnResolve;
 				mParameters.error = (oException) =>
 						fnReject(new ODataException({sMessage: "Failed to create path '" + sPath + "', data: " + JSON.stringify(oData, null, 4), oException}));
-				that.create(sPath, mParameters);
+				that.create(sPath, oData, mParameters);
 			});
 		},
 		removePromise: function(sPath, mParameters) {

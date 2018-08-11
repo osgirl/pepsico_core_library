@@ -1,5 +1,5 @@
 sap.ui.define([
-	"com/pepsico/core/sap/hcp/workflow/WorkflowException"
+	"com/pepsico/core/sap/ui/base/RuntimeException"
 ], function(RuntimeException) {
 	"use strict";
 	let UnhandledRejection = RuntimeException.extend("com.pepsico.core.hcp.workflow.WorkflowException", {

@@ -133,6 +133,7 @@ sap.ui.define([
 		},
 
 		_fetchToken: function() {
+			let that = this;
 			return new Promise(function(resolve, reject) {
 				$.ajax({
 					url: that._sWorkflowServiceUrl + "/xsrf-token",

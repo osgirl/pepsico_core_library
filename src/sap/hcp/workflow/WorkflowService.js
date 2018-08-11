@@ -112,6 +112,33 @@ sap.ui.define([
 					});
 				}));
 		},
+		
+		putContext: function(sWorkflowInstanceId, oContext) {
+			var that = this;
+			return that._fetchToken()
+				.then(sToken => new Promise(function(resolve, reject) {
+					$.ajax({
+						url: that._sWorkflowServiceUrl + "/workflow-instances/" + sWorkflowInstanceId + "/context",
+						method: "PUT",
+						contentType: "application/json",
+						async: true,
+						data: JSON.stringify(oContext),
+						headers: {
+							"X-CSRF-Token": sToken,
+							"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
+						},
+						success: function(oResult, sStatus, oXhr) {
+							resolve(oResult);
+						},
+						error: function(oXHR, sTextStatus, sErrorThrown) {
+							reject(new WorkflowException({
+								sMessage: "Failed patchContext",
+								oCausedBy: sErrorThrown
+							}));
+						}
+					});
+				}));
+		},
 
 		startInstance: function(sWorkflowId, oContext) {
 			var that = this;

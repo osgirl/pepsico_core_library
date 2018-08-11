@@ -13,7 +13,7 @@ sap.ui.define([
 			var that = this;
 			return new Promise(function(resolve, reject) {
 				$.ajax({
-					url: this._sWorkflowServiceUrl + "/task-instances/" + sTaskId,
+					url: that._sWorkflowServiceUrl + "/task-instances/" + sTaskId,
 					method: "GET",
 					async: true,
 					success: function(oResult, sStatus, oXhr) {
@@ -33,7 +33,7 @@ sap.ui.define([
 			var that = this;
 			return new Promise(function(resolve, reject) {
 				$.ajax({
-					url: this._sWorkflowServiceUrl + "/task-instances/" + sTaskId + "/context",
+					url: that._sWorkflowServiceUrl + "/task-instances/" + sTaskId + "/context",
 					method: "GET",
 					async: true,
 					success: function(oResult, sStatus, oXhr) {
@@ -55,7 +55,7 @@ sap.ui.define([
 			return that._fetchToken()
 				.then(sToken => new Promise(function(resolve, reject) {
 					$.ajax({
-						url: this._sWorkflowServiceUrl + "/task-instances/" + sTaskId,
+						url: that._sWorkflowServiceUrl + "/task-instances/" + sTaskId,
 						method: "PATCH",
 						contentType: "application/json",
 						async: true,
@@ -82,7 +82,7 @@ sap.ui.define([
 			return that._fetchToken()
 				.then(sToken => new Promise(function(resolve, reject) {
 					$.ajax({
-						url: this._sWorkflowServiceUrl + "/workflow-instances/" + sWorkflowInstanceId + "/context",
+						url: that._sWorkflowServiceUrl + "/workflow-instances/" + sWorkflowInstanceId + "/context",
 						method: "PATCH",
 						contentType: "application/json",
 						async: true,
@@ -108,7 +108,7 @@ sap.ui.define([
 			return that._fetchToken()
 				.then(sToken => new Promise(function(resolve, reject) {
 					$.ajax({
-						url: this._sWorkflowServiceUrl + "/workflow-instances",
+						url: that._sWorkflowServiceUrl + "/workflow-instances",
 						method: "POST",
 						async: true,
 						contentType: "application/json",
@@ -135,7 +135,7 @@ sap.ui.define([
 		_fetchToken: function() {
 			return new Promise(function(resolve, reject) {
 				$.ajax({
-					url: this._sWorkflowServiceUrl + "/xsrf-token",
+					url: that._sWorkflowServiceUrl + "/xsrf-token",
 					method: "GET",
 					async: true,
 					headers: {

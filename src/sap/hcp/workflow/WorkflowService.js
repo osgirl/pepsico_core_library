@@ -5,8 +5,10 @@ sap.ui.define([
 	"use strict";
 	return Object.extend("com.pepsico.core.sap.hcp.workflow.WorkflowService", {
 
-		constructor: function(sWorkflowServiceUrl) {
+		constructor: function({sWorkflowServiceUrl = "", sUserName = "", sPassword = ""} = {}) {
 			this._sWorkflowServiceUrl = sWorkflowServiceUrl;
+			this._sUserName = sUserName;
+			this._sPassword = sPassword;
 		},
 
 		getTaskDetails: function(sTaskId) {
@@ -16,6 +18,9 @@ sap.ui.define([
 					url: that._sWorkflowServiceUrl + "/task-instances/" + sTaskId,
 					method: "GET",
 					async: true,
+					headers: {
+						"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
+					},
 					success: function(oResult, sStatus, oXhr) {
 						resolve(oResult);
 					},
@@ -36,6 +41,9 @@ sap.ui.define([
 					url: that._sWorkflowServiceUrl + "/task-instances/" + sTaskId + "/context",
 					method: "GET",
 					async: true,
+					headers: {
+						"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
+					},
 					success: function(oResult, sStatus, oXhr) {
 						resolve(oResult);
 					},
@@ -61,7 +69,8 @@ sap.ui.define([
 						async: true,
 						data: "{\"status\": \"COMPLETED\"}",
 						headers: {
-							"X-CSRF-Token": sToken
+							"X-CSRF-Token": sToken,
+							"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
 						},
 						success: function(oResult, sStatus, oXhr) {
 							resolve(oResult);
@@ -88,7 +97,8 @@ sap.ui.define([
 						async: true,
 						data: JSON.stringify(oContext),
 						headers: {
-							"X-CSRF-Token": sToken
+							"X-CSRF-Token": sToken,
+							"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
 						},
 						success: function(oResult, sStatus, oXhr) {
 							resolve(oResult);
@@ -113,7 +123,8 @@ sap.ui.define([
 						async: true,
 						contentType: "application/json",
 						headers: {
-							"X-CSRF-Token": sToken
+							"X-CSRF-Token": sToken,
+							"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
 						},
 						data: JSON.stringify({
 							definitionId: sWorkflowId,
@@ -140,7 +151,8 @@ sap.ui.define([
 					method: "GET",
 					async: true,
 					headers: {
-						"X-CSRF-Token": "Fetch"
+						"X-CSRF-Token": "Fetch",
+						"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
 					},
 					success: function(result, xhr, data) {
 						resolve(data.getResponseHeader("X-CSRF-Token"));

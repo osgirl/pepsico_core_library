@@ -3,47 +3,59 @@ sap.ui.define([
 	"com/pepsico/core/sap/hcp/workflow/WorkflowException"
 ], function(Object, WorkflowException) {
 	"use strict";
-	return {
+	return Object.extend("com.pepsico.core.sap.hcp.workflow.WorkflowService", {
+
+		constructor: function(sWorkflowServiceUrl) {
+			this._sWorkflowServiceUrl = sWorkflowServiceUrl;
+		},
+
 		getTaskDetails: function(sTaskId) {
 			var that = this;
 			return new Promise(function(resolve, reject) {
 				$.ajax({
-					url: "/bpmworkflowruntime/rest/v1/task-instances/" + sTaskId,
+					url: this._sWorkflowServiceUrl + "/task-instances/" + sTaskId,
 					method: "GET",
 					async: true,
 					success: function(oResult, sStatus, oXhr) {
 						resolve(oResult);
 					},
 					error: function(oXHR, sTextStatus, sErrorThrown) {
-						reject(new WorkflowException({sMessage: ""}));
+						reject(new WorkflowException({
+							sMessage: "Failed getTaskDetails",
+							oCausedBy: sErrorThrown
+						}));
 					}
-
 				});
 			});
 		},
+
 		getTaskContext: function(sTaskId) {
 			var that = this;
 			return new Promise(function(resolve, reject) {
 				$.ajax({
-					url: "/bpmworkflowruntime/rest/v1/task-instances/" + sTaskId + "/context",
+					url: this._sWorkflowServiceUrl + "/task-instances/" + sTaskId + "/context",
 					method: "GET",
 					async: true,
 					success: function(oResult, sStatus, oXhr) {
 						resolve(oResult);
 					},
 					error: function(oXHR, sTextStatus, sErrorThrown) {
-						reject(new WorkflowException({sMessage: ""}));
+						reject(new WorkflowException({
+							sMessage: "Failed getTaskContext",
+							oCausedBy: sErrorThrown
+						}));
 					}
 
 				});
 			});
 		},
+
 		completeTask: function(sTaskId) {
 			var that = this;
 			return that._fetchToken()
 				.then(sToken => new Promise(function(resolve, reject) {
 					$.ajax({
-						url: "/bpmworkflowruntime/rest/v1/task-instances/" + sTaskId,
+						url: this._sWorkflowServiceUrl + "/task-instances/" + sTaskId,
 						method: "PATCH",
 						contentType: "application/json",
 						async: true,
@@ -55,18 +67,22 @@ sap.ui.define([
 							resolve(oResult);
 						},
 						error: function(oXHR, sTextStatus, sErrorThrown) {
-							reject(new WorkflowException({sMessage: ""}));
+							reject(new WorkflowException({
+								sMessage: "Failed completeTask",
+								oCausedBy: sErrorThrown
+							}));
 						}
 
 					});
 				}));
 		},
+
 		patchContext: function(sWorkflowInstanceId, oContext) {
 			var that = this;
 			return that._fetchToken()
 				.then(sToken => new Promise(function(resolve, reject) {
 					$.ajax({
-						url: "/bpmworkflowruntime/rest/v1/workflow-instances/" + sWorkflowInstanceId + "/context",
+						url: this._sWorkflowServiceUrl + "/workflow-instances/" + sWorkflowInstanceId + "/context",
 						method: "PATCH",
 						contentType: "application/json",
 						async: true,
@@ -78,17 +94,21 @@ sap.ui.define([
 							resolve(oResult);
 						},
 						error: function(oXHR, sTextStatus, sErrorThrown) {
-							reject(new WorkflowException({sMessage: ""}));
+							reject(new WorkflowException({
+								sMessage: "Failed patchContext",
+								oCausedBy: sErrorThrown
+							}));
 						}
 					});
 				}));
 		},
+
 		startInstance: function(sWorkflowId, oContext) {
 			var that = this;
 			return that._fetchToken()
 				.then(sToken => new Promise(function(resolve, reject) {
 					$.ajax({
-						url: "/bpmworkflowruntime/rest/v1/workflow-instances",
+						url: this._sWorkflowServiceUrl + "/workflow-instances",
 						method: "POST",
 						async: true,
 						contentType: "application/json",
@@ -103,15 +123,19 @@ sap.ui.define([
 							resolve(oResult);
 						},
 						error: function(oXHR, sTextStatus, sErrorThrown) {
-							reject(new WorkflowException({sMessage: ""}));
+							reject(new WorkflowException({
+								sMessage: "Failed startInstance",
+								oCausedBy: sErrorThrown
+							}));
 						}
 					});
 				}));
 		},
+
 		_fetchToken: function() {
 			return new Promise(function(resolve, reject) {
 				$.ajax({
-					url: "/bpmworkflowruntime/rest/v1/xsrf-token",
+					url: this._sWorkflowServiceUrl + "/xsrf-token",
 					method: "GET",
 					async: true,
 					headers: {
@@ -121,10 +145,14 @@ sap.ui.define([
 						resolve(data.getResponseHeader("X-CSRF-Token"));
 					},
 					error: function(oXHR, sTextStatus, sErrorThrown) {
-						reject(new WorkflowException({sMessage: ""}));
+						reject(new WorkflowException({
+							sMessage: "Failed _fetchToken",
+							oCausedBy: sErrorThrown
+						}));
 					}
 				});
 			});
 		}
-	};
+
+	});
 });

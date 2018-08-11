@@ -71,6 +71,9 @@ sap.ui.define([
 				);
 			});
 		},
+		getStore: function() {
+			return this._oOfflineStore;
+		}
 	});
 
 	return OfflineStore;

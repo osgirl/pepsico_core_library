@@ -18,7 +18,7 @@ sap.ui.define([
 					url: that._sWorkflowServiceUrl + "/task-instances/" + sTaskId,
 					method: "GET",
 					async: true,
-					headers: this._oCustomHttpHeaders,
+					headers: that._oCustomHttpHeaders,
 					success: function(oResult, sStatus, oXhr) {
 						resolve(oResult);
 					},
@@ -39,7 +39,7 @@ sap.ui.define([
 					url: that._sWorkflowServiceUrl + "/task-instances/" + sTaskId + "/context",
 					method: "GET",
 					async: true,
-					headers: this._oCustomHttpHeaders,
+					headers: that._oCustomHttpHeaders,
 					success: function(oResult, sStatus, oXhr) {
 						resolve(oResult);
 					},

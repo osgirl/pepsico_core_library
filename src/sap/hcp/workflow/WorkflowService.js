@@ -5,10 +5,10 @@ sap.ui.define([
 	"use strict";
 	return Object.extend("com.pepsico.core.sap.hcp.workflow.WorkflowService", {
 
-		constructor: function({sWorkflowServiceUrl = "", sUserName = "", sPassword = ""} = {}) {
+		constructor: function({sWorkflowServiceUrl = "", oCustomHttpHeaders = {}} = {}) {
 			this._sWorkflowServiceUrl = sWorkflowServiceUrl;
-			this._sUserName = sUserName;
-			this._sPassword = sPassword;
+			this._oCustomHttpHeaders = oCustomHttpHeaders;
+			
 		},
 
 		getTaskDetails: function(sTaskId) {
@@ -18,9 +18,7 @@ sap.ui.define([
 					url: that._sWorkflowServiceUrl + "/task-instances/" + sTaskId,
 					method: "GET",
 					async: true,
-					headers: {
-						"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
-					},
+					headers: this._oCustomHttpHeaders,
 					success: function(oResult, sStatus, oXhr) {
 						resolve(oResult);
 					},
@@ -41,9 +39,7 @@ sap.ui.define([
 					url: that._sWorkflowServiceUrl + "/task-instances/" + sTaskId + "/context",
 					method: "GET",
 					async: true,
-					headers: {
-						"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
-					},
+					headers: this._oCustomHttpHeaders,
 					success: function(oResult, sStatus, oXhr) {
 						resolve(oResult);
 					},
@@ -60,18 +56,18 @@ sap.ui.define([
 
 		completeTask: function(sTaskId) {
 			var that = this;
+			
 			return that._fetchToken()
 				.then(sToken => new Promise(function(resolve, reject) {
+					let oCustomHttpHeaders = that._oCustomHttpHeaders;
+					oCustomHttpHeaders["X-CSRF-Token"] = sToken;
 					$.ajax({
 						url: that._sWorkflowServiceUrl + "/task-instances/" + sTaskId,
 						method: "PATCH",
 						contentType: "application/json",
 						async: true,
 						data: "{\"status\": \"COMPLETED\"}",
-						headers: {
-							"X-CSRF-Token": sToken,
-							"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
-						},
+						headers: oCustomHttpHeaders,
 						success: function(oResult, sStatus, oXhr) {
 							resolve(oResult);
 						},
@@ -90,16 +86,15 @@ sap.ui.define([
 			var that = this;
 			return that._fetchToken()
 				.then(sToken => new Promise(function(resolve, reject) {
+					let oCustomHttpHeaders = that._oCustomHttpHeaders;
+					oCustomHttpHeaders["X-CSRF-Token"] = sToken;
 					$.ajax({
 						url: that._sWorkflowServiceUrl + "/workflow-instances/" + sWorkflowInstanceId + "/context",
 						method: "PATCH",
 						contentType: "application/json",
 						async: true,
 						data: JSON.stringify(oContext),
-						headers: {
-							"X-CSRF-Token": sToken,
-							"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
-						},
+						headers: oCustomHttpHeaders,
 						success: function(oResult, sStatus, oXhr) {
 							resolve(oResult);
 						},
@@ -117,16 +112,15 @@ sap.ui.define([
 			var that = this;
 			return that._fetchToken()
 				.then(sToken => new Promise(function(resolve, reject) {
+					let oCustomHttpHeaders = that._oCustomHttpHeaders;
+					oCustomHttpHeaders["X-CSRF-Token"] = sToken;
 					$.ajax({
 						url: that._sWorkflowServiceUrl + "/workflow-instances/" + sWorkflowInstanceId + "/context",
 						method: "PUT",
 						contentType: "application/json",
 						async: true,
 						data: JSON.stringify(oContext),
-						headers: {
-							"X-CSRF-Token": sToken,
-							"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
-						},
+						headers: oCustomHttpHeaders,
 						success: function(oResult, sStatus, oXhr) {
 							resolve(oResult);
 						},
@@ -144,15 +138,14 @@ sap.ui.define([
 			var that = this;
 			return that._fetchToken()
 				.then(sToken => new Promise(function(resolve, reject) {
+					let oCustomHttpHeaders = that._oCustomHttpHeaders;
+					oCustomHttpHeaders["X-CSRF-Token"] = sToken;
 					$.ajax({
 						url: that._sWorkflowServiceUrl + "/workflow-instances",
 						method: "POST",
 						async: true,
 						contentType: "application/json",
-						headers: {
-							"X-CSRF-Token": sToken,
-							"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
-						},
+						headers: oCustomHttpHeaders,
 						data: JSON.stringify({
 							definitionId: sWorkflowId,
 							context: oContext
@@ -173,14 +166,13 @@ sap.ui.define([
 		_fetchToken: function() {
 			let that = this;
 			return new Promise(function(resolve, reject) {
+				let oCustomHttpHeaders = that._oCustomHttpHeaders;
+					oCustomHttpHeaders["X-CSRF-Token"] = "Fetch";
 				$.ajax({
 					url: that._sWorkflowServiceUrl + "/xsrf-token",
 					method: "GET",
 					async: true,
-					headers: {
-						"X-CSRF-Token": "Fetch",
-						"Authorization": "Basic " + btoa(that._sUserName + ":" + that._sPassword)
-					},
+					headers: oCustomHttpHeaders,
 					success: function(result, xhr, data) {
 						resolve(data.getResponseHeader("X-CSRF-Token"));
 					},

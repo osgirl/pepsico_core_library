@@ -64,6 +64,76 @@ sap.ui.define([
 						fnReject(new ODataException({sMessage: "Failed to call function '" + sFuncPath + "'", oException}));
 				that.callFunction(sFuncPath, mParameters);
 			});
+		},
+		
+		
+		callFunctionExt: function(sFuncPath, sMethod, mUrlParameters) {
+			var that = this;
+			return new Promise(function (resolve, reject) {
+				that.callFunction(sFuncPath, { 
+					method: sMethod,
+					urlParameters: mUrlParameters,
+					success: function(oData) {
+						resolve(oData);
+					},
+					error: function(oException) {
+						reject(new ODataException({sMessage: "Failed", oException}));
+					}
+				});	
+			});
+		},
+		readExt: function(sPath, mUrlParameters) {
+			var that = this;
+			return new Promise(function(resolve, reject) {
+				that.read(sPath, {
+					urlParameters: mUrlParameters,
+					success: function(oData) {
+						resolve(oData);
+					},
+					error: function(oException) {
+						reject(new ODataException({sMessage: "Failed", oException}));
+					}
+				});
+			});
+		},
+		createExt: function(sPath, oData) {
+			var that = this;
+			return new Promise(function(resolve, reject) {
+				that.create(sPath, oData, {
+					success: function(oDataResult) {
+						resolve(oDataResult);
+					},
+					error: function(oException) {
+						reject(new ODataException({sMessage: "Failed", oException}));
+					}
+				});
+			});
+		},
+		submitChangesExt: function(sFullPath) {
+			var that = this;
+			return new Promise(function(resolve, reject) {
+				that.submitChanges({
+					success: function(oData) {
+						resolve(oData);
+					},
+					error: function(oException) {
+						reject(new ODataException({sMessage: "Failed", oException}));
+					}
+				});
+			});
+		},
+		removeExt: function(sFullPath) {
+			var that = this;
+			return new Promise(function(resolve, reject) {
+				that.remove(sFullPath, {
+					success: function(oData) {
+						resolve(oData);
+					},
+					error: function(oException) {
+						reject(new ODataException({sMessage: "Failed", oException}));
+					}
+				});
+			});
 		}
 	});
 });

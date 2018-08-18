@@ -5,10 +5,10 @@ sap.ui.define([
 ], function(JSONModel, JSONPropertyBinding, Binding) {
 	"use strict";
 	return JSONModel.extend("com.pepsico.core.sap.ui.model.json.JSONModel", {
-		attachChange: function(sPath, fnHandler) {
+		attachChange: function(sPath, fnHandler, oListener) {
 			//let oBinding = new JSONPropertyBinding(this, sPath, this.getContext(sPath));
 			let oBinding = new Binding(this, sPath, this.getContext(sPath));
-			oBinding.attachChange(fnHandler, this);
+			oBinding.attachChange(fnHandler, oListener);
 		}
 	});
 });

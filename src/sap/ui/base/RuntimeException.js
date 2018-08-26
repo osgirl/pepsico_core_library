@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/ui/base/Object"
-], function(Object, WebLogPublisher) {
+	"sap/ui/base/Object",
+	"com/pepsico/core/sap/ui/base/ExceptionStringifier"
+], function(Object, ExceptionStringifier) {
 	"use strict";
 	let webLogPublisher = Object.extend("com.pepsico.core.sap.ui.base.RuntimeException", {
 		constructor: function({
@@ -34,19 +35,10 @@ sap.ui.define([
 			return this._sStackTrace;
 		},
 		_printCauseBy: function(oException) {
-			if (!oException)
+			if (!oException) {
 				return "";
-			if (oException instanceof com.pepsico.core.sap.ui.base.RuntimeException) {
-				return "Caused by: " +  oException.toString();
-			} else if (oException instanceof Error) {
-				return "Caused by: " +  oException.toString();
-			} else if (typeof oException === "object"){
-				return "Caused by: " + JSON.stringify(oException, null, 4);
-			} else if (typeof oException === "string"){
-				return "Caused by: " + oException;
-			} else {
-				return "Caused by: uncknown object '" + oException + "'";
 			}
+			return "Caused by: " + ExceptionStringifier.stringify(oException);
 		},
 		toString: function() {
 			return this.getName() + ": " + this.getMessage() + "\n" +

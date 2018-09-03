@@ -65,8 +65,12 @@ sap.ui.define([
 				that.callFunction(sFuncPath, mParameters);
 			});
 		},
-		
-		
+		refreshSecurityTokenPromise: function(bAsync) {
+			var that = this;
+			return new Promise(function(fnResolve, fnReject) {
+				that.refreshSecurityToken(fnResolve, fnReject, bAsync);
+			});
+		},
 		callFunctionExt: function(sFuncPath, sMethod, mUrlParameters) {
 			var that = this;
 			return new Promise(function (resolve, reject) {

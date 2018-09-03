@@ -133,6 +133,30 @@ sap.ui.define([
 					});
 				}));
 		},
+		
+		deleteInstance: function(sWorkflowInstanceId) {
+			var that = this;
+			return that._fetchToken()
+				.then(sToken => new Promise(function(resolve, reject) {
+					let oCustomHttpHeaders = that._oCustomHttpHeaders;
+					oCustomHttpHeaders["X-CSRF-Token"] = sToken;
+					$.ajax({
+						url: that._sWorkflowServiceUrl + "/workflow-instances/" + sWorkflowInstanceId,
+						method: "DELETE",
+						async: true,
+						headers: oCustomHttpHeaders,
+						success: function(oResult, sStatus, oXhr) {
+							resolve(oResult);
+						},
+						error: function(oXHR, sTextStatus, sErrorThrown) {
+							reject(new WorkflowException({
+								sMessage: "Failed deleteInstance",
+								oCausedBy: sErrorThrown
+							}));
+						}
+					});
+				}));
+		},
 
 		startInstance: function(sWorkflowId, oContext) {
 			var that = this;

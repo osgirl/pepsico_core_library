@@ -8,12 +8,16 @@ sap.ui.define([
 		constructor: function(oProperties) {
 			Object.call(this);
 			this._oOfflineStore = sap.OData.createOfflineStore(oProperties);
+			this._oOpenedDeferred = $.Deferred();
 		},
 		open: function(oOptions) {
 			let that = this;
 			return new Promise(function(fnResolve, fnReject) {
 				that._oOfflineStore.open(
-					() => fnResolve(),
+					() => {
+						that._oOpenedDeferred.resolve();
+						fnResolve();
+					},
 					(oError) => fnReject(new OfflineStoreException({
 						sMessage: "Failed to open offline store",
 						oCausedBy: oError
@@ -26,7 +30,10 @@ sap.ui.define([
 			let that = this;
 			return new Promise(function(fnResolve, fnReject) {
 				that._oOfflineStore.close(
-					() => fnResolve(),
+					() => {
+						that._oOpenedDeferred = $.Deferred();
+						fnResolve();
+					},
 					(oError) => fnReject(new OfflineStoreException({
 						sMessage: "Failed to close offline store",
 						oCausedBy: oError
@@ -73,6 +80,48 @@ sap.ui.define([
 		},
 		getStore: function() {
 			return this._oOfflineStore;
+		},
+		getOpenedDeferred: function() {
+			return this._oOpenedDeferred;
+		},
+		stringifyNotification: function(iNotification) {
+			if (iNotification === sap.OfflineStore.Notification.PENDING_REFRESH) {
+				return "PENDING_REFRESH";
+			} else if (iNotification === sap.OfflineStore.Notification.PENDING_FLUSH) {
+				return "PENDING_FLUSH";
+			} else {
+				return "";
+			}
+		},
+		stringifyProgressState: function(iProgressState) {
+			if (iProgressState === sap.OfflineStore.ProgressState.STORE_DOWNLOADING) {
+				return "STORE_DOWNLOADING";
+			} else if (iProgressState === sap.OfflineStore.ProgressState.REFRESH) {
+				return "REFRESH";
+			} else if (iProgressState === sap.OfflineStore.ProgressState.FLUSH_REQUEST_QUEUE) {
+				return "FLUSH_REQUEST_QUEUE";
+			} else if (iProgressState === sap.OfflineStore.ProgressState.DONE) {
+				return "DONE";
+			} else {
+				return "";
+			}
+		},
+		stringifyState: function(iState) {
+			if (iState === sap.OfflineStore.State.OPENING) {
+				return "OPENING";
+			} else if (iState === sap.OfflineStore.State.INITIALIZING) {
+				return "INITIALIZING";
+			} else if (iState === sap.OfflineStore.State.POPULATING) {
+				return "POPULATING";
+			} else if (iState === sap.OfflineStore.State.DOWNLOADING) {
+				return "DOWNLOADING";
+			} else if (iState === sap.OfflineStore.State.OPEN) {
+				return "OPEN";
+			} else if (iState === sap.OfflineStore.State.CLOSED) {
+				return "CLOSED";
+			} else {
+				return "";
+			}
 		}
 	});
 

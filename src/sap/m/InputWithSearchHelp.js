@@ -10,7 +10,6 @@ sap.ui.define("com/pepsico/core/sap/m/InputWithSearchHelp", [
 				suggestionKeyKey: {type : "string", defaultValue : ""}
 			}
 		},
-		
 		constructor: function(sId, mSettings) {
 			Input.call(this, sId, mSettings);
 			this.attachLiveChange(null, this.onLiveChange, this);

@@ -1,11 +1,8 @@
 sap.ui.define([
 	"sap/ui/base/Object",
 	"com/pepsico/core/sap/ui/base/ExceptionStringifier"
-<<<<<<< HEAD
 ], function(Object, ExceptionStringifier) { // https://itnext.io/multiple-inheritance-in-js-part-2-24adca2c2518 - multiple inheritance
-=======
-], function(Object, ExceptionStringifier) {
->>>>>>> branch 'master' of https://github.com/ysokol/pepsico_core_library.git
+
 	"use strict";
 	let webLogPublisher = Object.extend("com.pepsico.core.sap.ui.base.RuntimeException", {
 		constructor: function({

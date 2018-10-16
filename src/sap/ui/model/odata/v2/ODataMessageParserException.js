@@ -2,9 +2,9 @@ sap.ui.define([
 	"com/pepsico/core/sap/ui/base/RuntimeException"
 ], function(RuntimeException) {
 	"use strict";
-	let UnhandledRejection = RuntimeException.extend("com.pepsico.core.sap.ui.model.odata.v2.ODataException", {
+	let UnhandledRejection = RuntimeException.extend("com.pepsico.core.sap.ui.model.odata.v2.ODataMessageParserException", {
 		constructor: function({
-			sName = "ODataException",
+			sName = "ODataMessageParserException",
 			sMessage = "",
 			oCausedBy = null
 		} = {}) {

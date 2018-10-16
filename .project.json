@@ -3,5 +3,9 @@
     "services": {
       "js": "jsValidator"
     }
+  },
+  "deploy": {
+    "destination": "pepsico_dv1",
+    "name": "zggldev5_core"
   }
 }

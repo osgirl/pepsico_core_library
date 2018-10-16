@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<edmx:Edmx Version="1.0"
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <edmx:DataServices
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0">
+        <Schema Namespace="com.pepsico.com.Models"
+            xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+            xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+            xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+            <EntityType Name="UserExit2">
+                <Key>
+                    <PropertyRef Name="UserExitId" />
+                    <PropertyRef Name="FieldValue1" />
+                    <PropertyRef Name="FieldValue2" />
+                    <PropertyRef Name="FieldValue3" />
+                    <PropertyRef Name="FieldValue4" />
+                    <PropertyRef Name="FieldValue5" />
+                </Key>
+                <Property Name="UserExitId" Type="Edm.String" Nullable="false" />
+                <Property Name="FieldValue1" Type="Edm.String" Nullable="true" />
+                <Property Name="FieldValue2" Type="Edm.String" Nullable="true" />
+                <Property Name="FieldValue3" Type="Edm.String" Nullable="true" />
+                <Property Name="FieldValue4" Type="Edm.String" Nullable="true" />
+                <Property Name="FieldValue5" Type="Edm.String" Nullable="true" />
+                <Property Name="FunctionName" Type="Edm.String" Nullable="true" />
+            </EntityType>
+            <EntityContainer Name="UserExit2Container" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="UserExit2Set" EntityType="com.pepsico.com.Models.UserExit2" />
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

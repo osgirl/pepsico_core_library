@@ -2,9 +2,9 @@ sap.ui.define([
 	"com/pepsico/core/sap/ui/base/RuntimeException"
 ], function(RuntimeException) {
 	"use strict";
-	let UnhandledRejection = RuntimeException.extend("com.pepsico.core.sap.ui.model.odata.v2.ODataMessageParserException", {
+	let UnhandledRejection = RuntimeException.extend("com.pepsico.core.sap.netweaver.utils.UserExitStrategyException", {
 		constructor: function({
-			sName = "ODataMessageParserException",
+			sName = "UserExitStrategyException",
 			sMessage = "",
 			oCausedBy = null
 		} = {}) {
@@ -13,6 +13,7 @@ sap.ui.define([
 				sMessage: sMessage,
 				oCausedBy: oCausedBy
 			});
+			// exclude call of this constructor from call stack
 			this._sStackTrace = RuntimeException.prototype._removeFirstLinesFromStackTrace.call(this, this._sStackTrace, 1); 
 		}
 	});

@@ -3,7 +3,7 @@ sap.ui.define([
 	"com/pepsico/core/sap/ui/model/odata/v2/ODataException"
 ], function(ODataModel, ODataException) {
 	"use strict";
-	return ODataModel.extend("com.pepsico.core.sap.ui.model.odata.v2.ODataModel", {
+	return {
 		/*constructor: function() {
 			ODataModel.call(this);
 			
@@ -15,14 +15,13 @@ sap.ui.define([
 		getRelatedPath: function(sFullPath) {
 			return sFullPath.replace(this.sServiceUrl, "");
 		},
-		readPromise: function(sPath, mParameters) {
+		readPromise: function(oODataModel, sPath, mParameters) {
 			mParameters = mParameters || {};
-			var that = this;
 			return new Promise(function(fnResolve, fnReject) {
 				mParameters.success = fnResolve;
 				mParameters.error = (oException) =>
-						fnReject(new ODataException({sMessage: "Failed to read '" + sPath + "'", oException}));
-				that.read(sPath, mParameters);
+						fnReject(new ODataException({sMessage: "Failed to read '" + sPath + "'", oCausedBy: oException}));
+				oODataModel.read(sPath, mParameters);
 			});
 		},
 		createPromise: function(sPath, oData, mParameters) {
@@ -31,7 +30,10 @@ sap.ui.define([
 			return new Promise(function(fnResolve, fnReject) {
 				mParameters.success = fnResolve;
 				mParameters.error = (oException) =>
-						fnReject(new ODataException({sMessage: "Failed to create path '" + sPath + "', data: " + JSON.stringify(oData, null, 4), oException}));
+						fnReject(new ODataException({
+							sMessage: "Failed to create entry at path '" + sPath + "', data: " + JSON.stringify(oData, null, 4), 
+							oCausedBy: oException
+						}));
 				that.create(sPath, oData, mParameters);
 			});
 		},
@@ -41,7 +43,7 @@ sap.ui.define([
 			return new Promise(function(fnResolve, fnReject) {
 				mParameters.success = fnResolve;
 				mParameters.error = (oException) =>
-						fnReject(new ODataException({sMessage: "Failed to remove '" + sPath + "'", oException}));
+						fnReject(new ODataException({sMessage: "Failed to remove '" + sPath + "'", oCausedBy: oException}));
 				that.remove(sPath, mParameters);
 			});
 		},
@@ -51,7 +53,7 @@ sap.ui.define([
 			return new Promise(function(fnResolve, fnReject) {
 				mParameters.success = fnResolve;
 				mParameters.error = (oException) =>
-						fnReject(new ODataException({sMessage: "Failed to submit changes", oException}));
+						fnReject(new ODataException({sMessage: "Failed to submit changes", oCausedBy: oException}));
 				that.submitChanges(mParameters);
 			});
 		},
@@ -61,7 +63,7 @@ sap.ui.define([
 			return new Promise(function(fnResolve, fnReject) {
 				mParameters.success = fnResolve;
 				mParameters.error = (oException) =>
-						fnReject(new ODataException({sMessage: "Failed to call function '" + sFuncPath + "'", oException}));
+						fnReject(new ODataException({sMessage: "Failed to call function '" + sFuncPath + "'", oCausedBy: oException}));
 				that.callFunction(sFuncPath, mParameters);
 			});
 		},
@@ -81,7 +83,7 @@ sap.ui.define([
 						resolve(oData);
 					},
 					error: function(oException) {
-						reject(new ODataException({sMessage: "Failed", oException}));
+						reject(new ODataException({sMessage: "Failed", oCausedBy: oException}));
 					}
 				});	
 			});
@@ -95,7 +97,7 @@ sap.ui.define([
 						resolve(oData);
 					},
 					error: function(oException) {
-						reject(new ODataException({sMessage: "Failed", oException}));
+						reject(new ODataException({sMessage: "Failed", oCausedBy: oException}));
 					}
 				});
 			});
@@ -108,7 +110,7 @@ sap.ui.define([
 						resolve(oDataResult);
 					},
 					error: function(oException) {
-						reject(new ODataException({sMessage: "Failed", oException}));
+						reject(new ODataException({sMessage: "Failed", oCausedBy: oException}));
 					}
 				});
 			});
@@ -121,7 +123,7 @@ sap.ui.define([
 						resolve(oData);
 					},
 					error: function(oException) {
-						reject(new ODataException({sMessage: "Failed", oException}));
+						reject(new ODataException({sMessage: "Failed", oCausedBy: oException}));
 					}
 				});
 			});
@@ -134,10 +136,10 @@ sap.ui.define([
 						resolve(oData);
 					},
 					error: function(oException) {
-						reject(new ODataException({sMessage: "Failed", oException}));
+						reject(new ODataException({sMessage: "Failed", oCausedBy: oException}));
 					}
 				});
 			});
 		}
-	});
+	};
 });

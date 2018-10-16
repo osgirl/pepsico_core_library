@@ -1,0 +1,11 @@
+[{
+	"UserExitId": "USER_EXIT_01",
+	"FieldValue1": "RU01",
+	"FieldValue2": "SA",
+	"FunctionName": "fnHandlerFunction"
+}, {
+	"UserExitId": "USER_EXIT_01",
+	"FieldValue1": "RU01",
+	"FieldValue2": "SB",
+	"FunctionName": "fnHandlerFunction"
+}]

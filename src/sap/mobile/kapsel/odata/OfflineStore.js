@@ -9,6 +9,8 @@ sap.ui.define([
 			Object.call(this);
 			this._oOfflineStore = sap.OData.createOfflineStore(oProperties);
 			this._oOpenedDeferred = $.Deferred();
+			this._aFlushRefreshStateChangedHandlers = new Map();
+			this._sFlushRefreshState = "";
 		},
 		open: function(oOptions) {
 			let that = this;
@@ -41,16 +43,23 @@ sap.ui.define([
 				);
 			});
 		},
-		refresh: function(oSubset) {
+		refresh: function(aSubset) {
 			let that = this;
+			that._fireFlushRefreshStateChanged("REFRESHING");
 			return new Promise(function(fnResolve, fnReject) {
 				that._oOfflineStore.refresh(
-					() => fnResolve(),
-					(oError) => fnReject(new OfflineStoreException({
-						sMessage: "Failed to open offline store",
-						oCausedBy: oError
-					})),
-					oSubset
+					() => {
+						that._fireFlushRefreshStateChanged("");
+						fnResolve();
+					},
+					(oError) => {
+						that._fireFlushRefreshStateChanged("");
+						fnReject(new OfflineStoreException({
+							sMessage: "Failed to open offline store",
+							oCausedBy: oError
+						}));
+					},
+					aSubset
 				);
 			});
 		},
@@ -68,13 +77,20 @@ sap.ui.define([
 		},
 		flush: function() {
 			let that = this;
+			that._fireFlushRefreshStateChanged("FLUSHING");
 			return new Promise(function(fnResolve, fnReject) {
 				that._oOfflineStore.flush(
-					() => fnResolve(),
-					(oError) => fnReject(new OfflineStoreException({
-						sMessage: "Failed to open offline store",
-						oCausedBy: oError
-					}))
+					() => {
+						that._fireFlushRefreshStateChanged("");
+						fnResolve();
+					},
+					(oError) => {
+						that._fireFlushRefreshStateChanged("");
+						fnReject(new OfflineStoreException({
+							sMessage: "Failed to open offline store",
+							oCausedBy: oError
+						}));
+					}
 				);
 			});
 		},
@@ -122,6 +138,29 @@ sap.ui.define([
 			} else {
 				return "";
 			}
+		},
+		getFlushRefreshState: function() {
+			return this._sFlushRefreshState;
+		},
+		attachFlushRefreshStateChanged: function({
+			fnHandler = undefined,
+			oListener = null,
+			oData = {}
+		} = {}) {
+			this._aFlushRefreshStateChangedHandlers.set(fnHandler, {
+				fnHandler: fnHandler.bind(oListener || {}),
+				oListener: oListener,
+				oData: oData
+			});
+		},
+		_fireFlushRefreshStateChanged: function(sFlushRefreshStatus) {
+			this._sFlushRefreshState = sFlushRefreshStatus;
+			this._aFlushRefreshStateChangedHandlers.forEach((oValue, oKey, oMap) => {
+				oValue.fnHandler({
+					sFlushRefreshStatus: sFlushRefreshStatus,
+					oData: oValue.oData
+				});
+			});
 		}
 	});
 

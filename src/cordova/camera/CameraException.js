@@ -4,7 +4,7 @@ sap.ui.define([
 	"use strict";
 	let UnhandledRejection = RuntimeException.extend("com.pepsico.core.cordova.camera.CameraException", {
 		constructor: function({
-			sName = "CameramException",
+			sName = "CameraException",
 			sMessage = "",
 			oCausedBy = null
 		} = {}) {
